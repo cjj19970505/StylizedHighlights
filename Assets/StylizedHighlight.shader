@@ -23,6 +23,7 @@ Shader "Unlit/StylizedHighlight"
 		_TranslateV("TranslateV", float) = 0
 		_SpecularRampMap("_SpecularRampMap",2D) = "black"{}
 		_SpecRot("Specular Rotate theta", float) = 0
+		_SpecK("SpecK", float) = 1
 	}
 	SubShader
 	{
@@ -66,6 +67,7 @@ Shader "Unlit/StylizedHighlight"
 			float _TranslateV;
 			sampler2D _SpecularRampMap;
 			float _SpecRot;
+			float _SpecK;
 			float magnitude(float3 v)
 			{
 				return sqrt(v.x*v.x+v.y*v.y+v.z*v.z);
@@ -119,7 +121,7 @@ Shader "Unlit/StylizedHighlight"
 				h = normalize(h);
 				fixed specularIntensity = pow(saturate(dot(worldNormal, h)),_Gloss);
 				specularIntensity = tex2D(_SpecularRampMap, fixed2(specularIntensity, specularIntensity)).x;
-				fixed3 specular = _Specular *  _LightColor0.rgb * specularIntensity;
+				fixed3 specular = _SpecK * _Specular *  _LightColor0.rgb * specularIntensity;
 				col = fixed4(ambient + specular + diffuse,1);
 				UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;
