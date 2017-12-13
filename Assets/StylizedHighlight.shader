@@ -1,16 +1,4 @@
-﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
-
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
-
+﻿
 Shader "Unlit/StylizedHighlight"
 {
 	Properties
@@ -24,6 +12,9 @@ Shader "Unlit/StylizedHighlight"
 		_SpecularRampMap("_SpecularRampMap",2D) = "black"{}
 		_SpecRot("Specular Rotate theta", float) = 0
 		_SpecK("SpecK", float) = 1
+		_ScaleU("ScaleU", float) = 1
+		_ScaleV("ScaleV", float) = 1
+		_ScaleK("ScaleK", float) = 0
 	}
 	SubShader
 	{
@@ -68,6 +59,10 @@ Shader "Unlit/StylizedHighlight"
 			sampler2D _SpecularRampMap;
 			float _SpecRot;
 			float _SpecK;
+			float _ScaleK;
+			float _ScaleU;
+			float _ScaleV;
+
 			float magnitude(float3 v)
 			{
 				return sqrt(v.x*v.x+v.y*v.y+v.z*v.z);
@@ -108,12 +103,24 @@ Shader "Unlit/StylizedHighlight"
 				
 				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
 				fixed3 worldNormal = normalize(float3(i.TtoW0[2],i.TtoW1[2],i.TtoW2[2]));
+				fixed3 worldTangent = fixed3(i.TtoW0[0],i.TtoW1[0],i.TtoW2[0]);
+				fixed3 worldBinormal = fixed3(i.TtoW0[1],i.TtoW1[1],i.TtoW2[1]);
 				fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
 				fixed3 diffuse = _LightColor0.rgb * _Color * saturate(dot(worldNormal, worldLightDir));
 				fixed3 worldViewDir = _WorldSpaceCameraPos - worldPos;
+
+				
 				fixed3 h = normalize((worldViewDir + worldLightDir)/2);
-				fixed3 worldTangent = fixed3(i.TtoW0[0],i.TtoW1[0],i.TtoW2[0]);
-				fixed3 worldBinormal = fixed3(i.TtoW0[1],i.TtoW1[1],i.TtoW2[1]);
+
+				//Scale U
+				h = h - _ScaleK*dot(h, _ScaleU*worldTangent)*(_ScaleU*worldTangent);
+				h = normalize(h);
+
+				//Scale V
+				h = h - _ScaleK*dot(h, _ScaleV*worldBinormal)*(_ScaleV*worldBinormal);
+				h = normalize(h);
+
+
 				fixed2 translate = fixed2(_TranslateU, _TranslateV);
 				fixed3 rotatedWorldTangent = rotateAroundAxis(worldTangent, worldNormal, _SpecRot);
 				fixed3 rotatedWorldBinormal = rotateAroundAxis(worldBinormal, worldNormal, _SpecRot);

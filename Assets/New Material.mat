@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecularRampMap:
-        m_Texture: {fileID: 2800000, guid: c336d26429c24f74d9ac7da505339009, type: 3}
+        m_Texture: {fileID: 2800000, guid: ee9466e30e0d2c9498aff66cbc26a10c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -63,7 +63,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Gloss: 5.02
+    - _Gloss: 45.52
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -71,9 +71,12 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _ScaleK: 0.22
+    - _ScaleU: 1.79
+    - _ScaleV: 2.3
     - _SmoothnessTextureChannel: 0
-    - _SpecK: -0.24
-    - _SpecRot: 90.25
+    - _SpecK: 1.06
+    - _SpecRot: 7.02
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _TranslateU: 0
@@ -83,7 +86,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
