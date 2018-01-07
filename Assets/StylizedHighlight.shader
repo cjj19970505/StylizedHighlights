@@ -141,9 +141,9 @@ Shader "Unlit/StylizedHighlight"
 			}
 			float3 opWorldHSquare(float3 h, int n, float sigma, float3 worldTangent, float3 worldBinormal)
 			{
-				float theta = min(acos(dot(h,worldTangent)), acos(dot(h,worldBinormal)));
+				float theta = min(acos(dot(normalize(h),normalize(worldTangent))), acos(dot(normalize(h),normalize(worldBinormal))));
 				float sqrnorm = sin(pow(2*theta,n));
-				h = h - sigma * sqrnorm * (dot(h, worldTangent) * worldTangent + dot(h, worldBinormal) * worldBinormal * 0);
+				h = h - sigma * sqrnorm * (dot(h, worldTangent) * worldTangent + dot(h, worldBinormal) * worldBinormal);
 				float3 sqrH = normalize(h);
 				return sqrH;
 			}

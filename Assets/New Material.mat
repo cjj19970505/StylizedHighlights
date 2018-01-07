@@ -80,8 +80,8 @@ Material:
     - _SpecularHighlights: 1
     - _SplitX: 0
     - _SplitY: 0.06
-    - _SquareN: 3.66
-    - _SquareSigma: 0.34
+    - _SquareN: 1
+    - _SquareSigma: 0.75
     - _SrcBlend: 1
     - _TranslateU: 0
     - _TranslateV: 0
